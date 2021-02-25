@@ -7,7 +7,7 @@ import time
 from copy import deepcopy
 from pathlib import Path
 from threading import Thread
-
+import json
 import numpy as np
 import torch.distributed as dist
 import torch.nn as nn
@@ -187,6 +187,13 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
         model = DDP(model, device_ids=[opt.local_rank], output_device=opt.local_rank)
 
     # Trainloader
+    file=open('hyp.json','w')
+    json.dump(hyp,file)
+    file.close()
+    print('gs:{}'.format(gs))
+    file=open('opt.json','w')
+    json.dump(opt,file)
+    file.close()
     dataloader, dataset = create_dataloader(train_path, imgsz, batch_size, gs, opt,
                                             hyp=hyp, augment=True, cache=opt.cache_images, rect=opt.rect, rank=rank,
                                             world_size=opt.world_size, workers=opt.workers,
