@@ -1,4 +1,4 @@
 train: ../mydata/images/train
-val: ../mydata/images/train
+val: ../mydata/images/val
 nc: 1
 names: ['person']
