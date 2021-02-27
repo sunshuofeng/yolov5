@@ -387,6 +387,9 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                         'ema': (deepcopy(ema.ema).half(), ema.updates),
                         'optimizer': optimizer.state_dict(),
                         'wandb_id': wandb_run.id if wandb else None}
+                other_ckpt={'results':np.array(results).reshape(1, -1),
+                            'state_dict':model.state_dict()}
+                
 
                 # Save last, best and delete
                 torch.save(ckpt, last)
