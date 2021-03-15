@@ -1,4 +1,15 @@
 train: ../mydata/images/train
 val: ../mydata/images/val
-nc: 1
-names: ['person']
+nc: 11
+names: ['bicycle',
+ 'bus',
+ 'car',
+ 'motorcycle',
+ 'person',
+ 'other vehicle',
+ 'rider',
+ 'traffic light',
+ 'traffic sign',
+ 'trailer',
+ 'train',
+ 'truck']
