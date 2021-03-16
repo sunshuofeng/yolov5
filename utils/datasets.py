@@ -173,6 +173,8 @@ class LoadImages:  # for inference
                     path = self.files[self.count]
                     self.new_video(path)
                     ret_val, img0 = self.cap.read()
+                    if self.im0_size is not None:
+                        img0=cv2.resize(img0,self.im0_size)
                     
             self.frame += 1
             print(f'video {self.count + 1}/{self.nf} ({self.frame}/{self.nframes}) {path}: ', end='')
