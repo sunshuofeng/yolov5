@@ -120,7 +120,7 @@ class _RepeatSampler(object):
 
 
 class LoadImages:  # for inference
-    def __init__(self, path, img_size=640, stride=32):
+    def __init__(self, path, img_size=640, stride=32,im0_size=None):
         p = str(Path(path).absolute())  # os-agnostic absolute path
         if '*' in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -141,6 +141,7 @@ class LoadImages:  # for inference
         self.nf = ni + nv  # number of files
         self.video_flag = [False] * ni + [True] * nv
         self.mode = 'image'
+        self.im0_size=im0_size
         if any(videos):
             self.new_video(videos[0])  # new video
         else:
@@ -170,6 +171,8 @@ class LoadImages:  # for inference
                     path = self.files[self.count]
                     self.new_video(path)
                     ret_val, img0 = self.cap.read()
+                    if self.im0_size is not None:
+                        img0=cv2.resize(img0,self.im0_size)
 
             self.frame += 1
             print(f'video {self.count + 1}/{self.nf} ({self.frame}/{self.nframes}) {path}: ', end='')
@@ -178,6 +181,8 @@ class LoadImages:  # for inference
             # Read image
             self.count += 1
             img0 = cv2.imread(path)  # BGR
+            if self.im0_size is not None:
+                        img0=cv2.resize(img0,self.im0_size)
             assert img0 is not None, 'Image Not Found ' + path
             print(f'image {self.count}/{self.nf} {path}: ', end='')
 
