@@ -1,6 +1,6 @@
 train: ../mydata/images/train
 val: ../mydata/images/val
-nc: 11
+nc: 12
 names: ['bicycle',
  'bus',
  'car',
