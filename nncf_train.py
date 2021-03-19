@@ -35,7 +35,7 @@ from utils.plots import plot_images, plot_labels, plot_results, plot_evolution
 from utils.torch_utils import ModelEMA, select_device, intersect_dicts, torch_distributed_zero_first, is_parallel
 from nncf import NNCFConfig, create_compressed_model, load_state
 logger = logging.getLogger(__name__)
-from nncf.initialization import InitializingDataLoader
+from nncf.initialization import InitializingDataLoader，DefaultInitializingDataLoader
 class nncf_loaer(InitializingDataLoader):
     def __next__(self):
         image,target,path,_=next(self.data_loader_iter)
@@ -250,7 +250,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
     from nncf import register_default_init_args
     def criterion_fn(pred,target):
         loss,loss_items=compute_loss(pred,target.to(device))
-    nncf_config=register_default_init_args(nncf_config,nncf_loaer(dataloader),criterion_fn)
+    nncf_config=register_default_init_args(nncf_config,DefaultInitializingDataLoader(dataloader),criterion_fn)
     compress_ctrl,model=create_compressed_model(model,nncf_config)
 
     for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
