@@ -38,7 +38,7 @@ logger = logging.getLogger(__name__)
 from nncf.initialization import InitializingDataLoader
 class nncf_loaer(InitializingDataLoader):
     def __next__(self):
-        image,target,path,_=next(self.dataloader)
+        image,target,path,_=next(self.data_loader_iter)
         return image,target
 
 def train(hyp, opt, device, tb_writer=None, wandb=None):
