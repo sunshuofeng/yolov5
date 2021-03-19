@@ -250,7 +250,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
     from nncf import register_default_init_args
     def criterion_fn(pred,target):
         loss,loss_items=compute_loss(pred,target.to(device))
-    nncf_config=register_default_init_args(nncf_config,nncf_loaer(dataloder),criterion_fn)
+    nncf_config=register_default_init_args(nncf_config,nncf_loaer(dataloader),criterion_fn)
     compress_ctrl,model=create_compressed_model(model,nncf_config)
 
     for epoch in range(start_epoch, epochs):  # epoch ------------------------------------------------------------------
