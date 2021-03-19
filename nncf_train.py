@@ -53,6 +53,7 @@ class myDataLoader:
     def __next__(self) :
         
         images,targets,path,_= next(self.data_loader_iter)
+        images=images.float()/255.0
         return images,targets
 
     def __len__(self) :
