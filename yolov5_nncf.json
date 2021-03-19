@@ -1,0 +1,29 @@
+{
+  "input_info": {
+    "sample_size": [64,3,704,704]
+  },
+  "num_classes": 21,
+  "target_evice": "GPU",
+  "compression": [
+    {
+      "algorithm": "magnitude_sparsity",
+      "params": {
+        "schedule": "multistep",
+        "multistep_sparsity_levels": [
+
+          0.3,
+          0.5,
+          0.7
+        ],
+        "multistep_steps": [
+          40,
+          80
+        ]
+
+      }
+    },
+    {
+      "algorithm": "quantization"
+    }
+  ]
+}
