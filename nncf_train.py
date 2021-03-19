@@ -36,10 +36,27 @@ from utils.torch_utils import ModelEMA, select_device, intersect_dicts, torch_di
 from nncf import NNCFConfig, create_compressed_model, load_state
 logger = logging.getLogger(__name__)
 from nncf.initialization import InitializingDataLoader,DefaultInitializingDataLoader
-class nncf_loaer(InitializingDataLoader):
-    def __next__(self):
-        image,target,path,_=next(self.data_loader_iter)
-        return image,target
+
+class myDataLoader:
+    def __init__(self, regular_data_loader: DataLoader):
+        
+        self.data_loader = regular_data_loader
+        self.batch_size = regular_data_loader.batch_size
+       
+       
+
+    def __iter__(self):
+        self.data_loader_iter = iter(self.data_loader)
+        
+        return self
+
+    def __next__(self) -> Any:
+        
+        images,targets,path,_= next(self.data_loader_iter)
+        return images,targets
+
+    def __len__(self) -> int:
+        return len(self.data_loader)
 
 def train(hyp, opt, device, tb_writer=None, wandb=None):
     logger.info(colorstr('hyperparameters: ') + ', '.join(f'{k}={v}' for k, v in hyp.items()))
