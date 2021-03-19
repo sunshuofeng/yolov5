@@ -50,12 +50,12 @@ class myDataLoader:
         
         return self
 
-    def __next__(self) -> Any:
+    def __next__(self) :
         
         images,targets,path,_= next(self.data_loader_iter)
         return images,targets
 
-    def __len__(self) -> int:
+    def __len__(self) :
         return len(self.data_loader)
 
 def train(hyp, opt, device, tb_writer=None, wandb=None):
