@@ -399,7 +399,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                                                  verbose=nc < 50 and final_epoch,
                                                  plots=plots and final_epoch,
                                                  log_imgs=opt.log_imgs if wandb else 0,
-                                                 compute_loss=compute_loss)
+                                                 compute_loss=None)
 
             # Write
             with open(results_file, 'a') as f:
