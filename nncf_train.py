@@ -336,12 +336,18 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                     loss *= opt.world_size  # gradient averaged between devices in DDP mode
                 if opt.quad:
                     loss *= 4.
-
+                compression_loss=compress_ctrl.loss()
+#             pred = model(imgs)  # forward
+#             loss, loss_items = compute_loss(pred, targets.to(device))  # loss scaled by batch_size
+#             if rank != -1:
+#                 loss *= opt.world_size  # gradient averaged between devices in DDP mode
+#             if opt.quad:
+#                 loss *= 4.
             # Backward
-            compression_loss=compress_ctrl.loss()
+#             compression_loss=compress_ctrl.loss()
             loss=loss+compression_loss
             scaler.scale(loss).backward()
-
+#             loss.backward()
             # Optimize
             if ni % accumulate == 0:
                 scaler.step(optimizer)  # optimizer.step
