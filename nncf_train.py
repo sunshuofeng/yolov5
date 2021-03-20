@@ -21,7 +21,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
-import test  # import test.py to get mAP after each epoch
+import nncf_test  # import test.py to get mAP after each epoch
 from models.experimental import attempt_load
 from models.yolo import Model
 from utils.autoanchor import check_anchors
@@ -389,7 +389,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
             ema.update_attr(model, include=['yaml', 'nc', 'hyp', 'gr', 'names', 'stride', 'class_weights'])
             final_epoch = epoch + 1 == epochs
             if not opt.notest or final_epoch:  # Calculate mAP
-                results, maps, times = test.test(opt.data,
+                results, maps, times = nncf_test.test(opt.data,
                                                  batch_size=batch_size * 2,
                                                  imgsz=imgsz_test,
                                                  model=model,
