@@ -343,7 +343,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                 loss *= opt.world_size  # gradient averaged between devices in DDP mode
             if opt.quad:
                 loss *= 4.
-            Backward
+           
             compression_loss=compress_ctrl.loss()
             loss=loss+compression_loss
 #             scaler.scale(loss).backward()
