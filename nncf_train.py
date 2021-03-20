@@ -448,24 +448,24 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                     )
                     FULL_best_fitness=fi
 
-            # Save model
-            if (not opt.nosave) or (final_epoch and not opt.evolve):  # if save
-                ckpt = {'epoch': epoch,
-                        'best_fitness': best_fitness,
-                        'training_results': results_file.read_text(),
-                        'model': deepcopy(model.module if is_parallel(model) else model).half(),
-#                         'ema': (deepcopy(ema.ema).half(), ema.updates),
-                        'optimizer': optimizer.state_dict(),
-                        'wandb_id': wandb_run.id if wandb else None}
-                other_ckpt={'results':np.array(results).reshape(1, -1),
-                            'state_dict':model.state_dict()}
+#             # Save model
+#             if (not opt.nosave) or (final_epoch and not opt.evolve):  # if save
+#                 ckpt = {'epoch': epoch,
+#                         'best_fitness': best_fitness,
+#                         'training_results': results_file.read_text(),
+#                         'model': deepcopy(model.module if is_parallel(model) else model).half(),
+# #                         'ema': (deepcopy(ema.ema).half(), ema.updates),
+#                         'optimizer': optimizer.state_dict(),
+#                         'wandb_id': wandb_run.id if wandb else None}
+#                 other_ckpt={'results':np.array(results).reshape(1, -1),
+#                             'state_dict':model.state_dict()}
                 
 
-                # Save last, best and delete
-                torch.save(ckpt, last)
-                if best_fitness == fi:
-                    torch.save(ckpt, best)
-                del ckpt
+#                 # Save last, best and delete
+#                 torch.save(ckpt, last)
+#                 if best_fitness == fi:
+#                     torch.save(ckpt, best)
+#                 del ckpt
 
         # end epoch ----------------------------------------------------------------------------------------------------
     # end training
