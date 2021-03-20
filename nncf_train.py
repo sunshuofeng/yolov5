@@ -354,8 +354,8 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
 #                 scaler.update()
                 optimizer.step()
                 optimizer.zero_grad()
-                if ema:
-                    ema.update(model)
+#                 if ema:
+#                     ema.update(model)
 
             # Print
             if rank in [-1, 0]:
@@ -392,7 +392,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                 results, maps, times = test.test(opt.data,
                                                  batch_size=batch_size * 2,
                                                  imgsz=imgsz_test,
-                                                 model=ema.ema,
+                                                 model=model,
                                                  single_cls=opt.single_cls,
                                                  dataloader=testloader,
                                                  save_dir=save_dir,
@@ -454,7 +454,7 @@ def train(hyp, opt, device, tb_writer=None, wandb=None):
                         'best_fitness': best_fitness,
                         'training_results': results_file.read_text(),
                         'model': deepcopy(model.module if is_parallel(model) else model).half(),
-                        'ema': (deepcopy(ema.ema).half(), ema.updates),
+#                         'ema': (deepcopy(ema.ema).half(), ema.updates),
                         'optimizer': optimizer.state_dict(),
                         'wandb_id': wandb_run.id if wandb else None}
                 other_ckpt={'results':np.array(results).reshape(1, -1),
