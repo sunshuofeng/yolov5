@@ -52,7 +52,7 @@ def test(data,
 
         # Load model
         model = Model('models/yolov5s.yaml',ch=3,nc=opt.nc)  # load FP32 model
-        ckpt=torch.load(opt.weights)
+        ckpt=torch.load('FULL_best.pt')
         nncf.load_state(model,ckpt)
         gs = max(int(model.stride.max()), 32)  # grid size (max stride)
         imgsz = check_img_size(imgsz, s=gs)  # check img_size
