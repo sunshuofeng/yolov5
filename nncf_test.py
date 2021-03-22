@@ -52,7 +52,8 @@ def test(data,
 
         # Load model
         model = Model('models/yolov5s.yaml',ch=3,nc=opt.nc)  # load FP32 model
-        ckpt=torch.load('FULL_best.pt')
+        print(weights)
+        ckpt=torch.load(weights)
         nncf.load_state(model,ckpt)
         model=model.to(device)
         gs = max(int(model.stride.max()), 32)  # grid size (max stride)
