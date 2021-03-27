@@ -6,27 +6,15 @@
   "target_evice": "GPU",
   "compression": [
     {
-      "algorithm": "filter_pruning",
-      "initializer": {
-        "batchnorm_adaptation": {
-            "num_bn_adaptation_samples": 2048,
-            "num_bn_forget_samples": 1024,
-        }
-      },
-      "pruning_init":0.1, 
-      "params": {
-          "schedule": "baseline", 
-          "pruning_target": 0.4, 
-          "num_init_steps": 3, 
-          "pruning_steps": 10, 
-          "weight_importance": "L2", 
-          "all_weights": false, 
-          "prune_first_conv": false, 
-          "prune_last_conv": false,  
-          "prune_downsample_convs": false, 
-          "prune_batch_norms": true,
-          "zero_grad": true   
-      },
+      
+    "algorithm": "filter_pruning",
+    "pruning_init": 0.05,
+    "params": {
+      "schedule": "exponential",
+      "pruning_steps": 50,
+      "pruning_target": 0.2,
+      "weight_importance": "geometric_median"
+    },
 
     "ignored_scopes": []
 
