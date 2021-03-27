@@ -6,24 +6,32 @@
   "target_evice": "GPU",
   "compression": [
     {
-      "algorithm": "magnitude_sparsity",
-      "params": {
-        "schedule": "multistep",
-        "multistep_sparsity_levels": [
-
-          0.3,
-          0.5,
-          0.7
-        ],
-        "multistep_steps": [
-          40,
-          80
-        ]
-
-      }
-    },
-    {
-      "algorithm": "quantization"
+      "algorithm": "filter_pruning",
+      "initializer": {
+        "batchnorm_adaptation": {
+            "num_bn_adaptation_samples": 2048, // Number of samples from the training dataset to pass through the model at initialization in order to update batchnorm statistics of the original model. The actual number of samples will be a closest multiple of the batch size.
+            "num_bn_forget_samples": 1024, // Number of samples from the training dataset to pass through the model at initialization in order to erase batchnorm statistics of the original model (using large momentum value for rolling mean updates). The actual number of samples will be a closest multiple of the batch size.
+        }
     }
+    "pruning_init": 0.1, // Initial value of the pruning level applied to the model in 'create_compressed_model' function. 0.0 by default.
+    "params": {
+        "schedule": "baseline", // The type of scheduling to use for adjusting the target pruning level. Either `exponential`, `exponential_with_bias`,  or `baseline`, by default it is `baseline`"
+        "pruning_target": 0.4, // Target value of the pruning level for the model. 0.5 by default.
+        "num_init_steps": 3, // Number of epochs for model pretraining before starting filter pruning. 0 by default.
+        "pruning_steps": 10, // Number of epochs during which the pruning rate is increased from `pruning_init` to `pruning_target` value.
+        "weight_importance": "L2", // The type of filter importance metric. Can be one of `L1`, `L2`, `geometric_median`. `L2` by default.
+        "all_weights": false, // Whether to prune layers independently (choose filters with the smallest importance in each layer separately) or not. `False` by default.
+        "prune_first_conv": false, // Whether to prune first Convolutional layers or not. First means that it is a convolutional layer such that there is a path from model input to this layer such that there are no other convolution operations on it. `False` by default. 
+        "prune_last_conv": false, // Whether to prune last Convolutional layers or not.  Last means that it is a Convolutional layer such that there is a path from this layer to the model output such that there are no other convolution operations on it. `False` by default. 
+        "prune_downsample_convs": false, // Whether to prune downsample Convolutional layers (with stride > 1) or not. `False` by default.
+        "prune_batch_norms": true, // Whether to nullifies parameters of Batch Norm layer corresponds to zeroed filters of convolution corresponding to this Batch Norm. `True` by default.
+        "zero_grad": true // Whether to setting gradients corresponding to zeroed filters to zero during training, `True` by default.    
+    },
+
+    // A list of model control flow graph node scopes to be ignored for this operation - functions as a 'denylist'. Optional.
+    "ignored_scopes": []
+
+    // A list of model control flow graph node scopes to be considered for this operation - functions as a 'allowlist'. Optional.
+    // "target_scopes": []
   ]
 }
