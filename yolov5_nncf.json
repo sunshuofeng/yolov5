@@ -16,7 +16,9 @@
       "weight_importance": "geometric_median"
     },
 
-    "ignored_scopes": []
+    "ignored_scopes": [
+    "Model/Sequential[model]/Detect[24]/ModuleList[m]/NNCFConv2d[0]",
+    ]
 
 }
   ]
