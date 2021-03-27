@@ -12,7 +12,7 @@
             "num_bn_adaptation_samples": 2048,
             "num_bn_forget_samples": 1024,
         }
-      }
+      },
       "pruning_init":0.1, 
       "params": {
           "schedule": "baseline", 
